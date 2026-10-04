@@ -1,0 +1,14 @@
+
+.venv/
+venv/
+env/
+
+__pycache__/
+*.pyc
+
+output/*.csv
+output/*.parquet
+
+.DS_Store
+.vscode/
+.idea/

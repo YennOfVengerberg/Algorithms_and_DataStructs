@@ -1,0 +1,65 @@
+[
+  {
+    "name": "Сбербанк",
+    "weight": 0.35,
+    "payment_systems": {
+      "Visa":       {"weight": 0.25, "bins": ["4276", "4279"]},
+      "MasterCard": {"weight": 0.25, "bins": ["5469", "5211"]},
+      "МИР":        {"weight": 0.50, "bins": ["2202", "2200"]}
+    }
+  },
+  {
+    "name": "Т-банк",
+    "weight": 0.20,
+    "payment_systems": {
+      "Visa":       {"weight": 0.30, "bins": ["4377"]},
+      "MasterCard": {"weight": 0.40, "bins": ["5189", "5213"]},
+      "МИР":        {"weight": 0.30, "bins": ["2200"]}
+    }
+  },
+  {
+    "name": "Газпромбанк",
+    "weight": 0.12,
+    "payment_systems": {
+      "Visa":       {"weight": 0.15, "bins": ["4276"]},
+      "MasterCard": {"weight": 0.15, "bins": ["5469"]},
+      "МИР":        {"weight": 0.70, "bins": ["2200", "2202"]}
+    }
+  },
+  {
+    "name": "ВТБ",
+    "weight": 0.12,
+    "payment_systems": {
+      "Visa":       {"weight": 0.15, "bins": ["4279"]},
+      "MasterCard": {"weight": 0.15, "bins": ["5211"]},
+      "МИР":        {"weight": 0.70, "bins": ["2200", "2202"]}
+    }
+  },
+  {
+    "name": "Альфа-Банк",
+    "weight": 0.10,
+    "payment_systems": {
+      "Visa":       {"weight": 0.15, "bins": ["4377"]},
+      "MasterCard": {"weight": 0.15, "bins": ["5189"]},
+      "МИР":        {"weight": 0.70, "bins": ["2200", "2202"]}
+    }
+  },
+  {
+    "name": "Россельхозбанк",
+    "weight": 0.06,
+    "payment_systems": {
+      "Visa":       {"weight": 0.10, "bins": ["4276"]},
+      "MasterCard": {"weight": 0.10, "bins": ["5469"]},
+      "МИР":        {"weight": 0.80, "bins": ["2200", "2202"]}
+    }
+  },
+  {
+    "name": "Совкомбанк",
+    "weight": 0.05,
+    "payment_systems": {
+      "Visa":       {"weight": 0.10, "bins": ["4279"]},
+      "MasterCard": {"weight": 0.10, "bins": ["5211"]},
+      "МИР":        {"weight": 0.80, "bins": ["2200", "2202"]}
+    }
+  }
+]

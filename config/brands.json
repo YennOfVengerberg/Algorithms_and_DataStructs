@@ -1,0 +1,982 @@
+{
+  "ноутбук": [
+    {"name": "Lenovo",  "min_price": 30000,  "max_price": 150000},
+    {"name": "ASUS",    "min_price": 35000,  "max_price": 180000},
+    {"name": "HP",      "min_price": 28000,  "max_price": 160000},
+    {"name": "Dell",    "min_price": 40000,  "max_price": 200000},
+    {"name": "Apple",   "min_price": 80000,  "max_price": 350000},
+    {"name": "Acer",    "min_price": 25000,  "max_price": 140000},
+    {"name": "MSI",     "min_price": 45000,  "max_price": 250000},
+    {"name": "Huawei",  "min_price": 40000,  "max_price": 130000},
+    {"name": "Honor",   "min_price": 35000,  "max_price": 100000},
+    {"name": "Digma",   "min_price": 15000,  "max_price": 45000}
+  ],
+  "смартфон": [
+    {"name": "Samsung",  "min_price": 10000, "max_price": 150000},
+    {"name": "Apple",    "min_price": 40000, "max_price": 200000},
+    {"name": "Xiaomi",   "min_price": 8000,  "max_price": 80000},
+    {"name": "Huawei",   "min_price": 12000, "max_price": 90000},
+    {"name": "Honor",    "min_price": 10000, "max_price": 70000},
+    {"name": "Realme",   "min_price": 9000,  "max_price": 50000},
+    {"name": "OPPO",     "min_price": 10000, "max_price": 60000},
+    {"name": "Vivo",     "min_price": 9000,  "max_price": 55000},
+    {"name": "Tecno",    "min_price": 7000,  "max_price": 30000},
+    {"name": "Nokia",    "min_price": 5000,  "max_price": 40000}
+  ],
+  "планшет": [
+    {"name": "Apple",    "min_price": 30000, "max_price": 200000},
+    {"name": "Samsung",  "min_price": 15000, "max_price": 100000},
+    {"name": "Huawei",   "min_price": 12000, "max_price": 80000},
+    {"name": "Lenovo",   "min_price": 10000, "max_price": 70000},
+    {"name": "Xiaomi",   "min_price": 15000, "max_price": 60000},
+    {"name": "Digma",    "min_price": 5000,  "max_price": 20000},
+    {"name": "Prestigio","min_price": 6000,  "max_price": 25000}
+  ],
+  "телевизор": [
+    {"name": "Samsung",  "min_price": 20000, "max_price": 400000},
+    {"name": "LG",       "min_price": 18000, "max_price": 350000},
+    {"name": "Sony",     "min_price": 30000, "max_price": 500000},
+    {"name": "Philips",  "min_price": 15000, "max_price": 200000},
+    {"name": "Xiaomi",   "min_price": 15000, "max_price": 150000},
+    {"name": "Haier",    "min_price": 12000, "max_price": 100000},
+    {"name": "TCL",      "min_price": 13000, "max_price": 120000},
+    {"name": "Hisense",  "min_price": 14000, "max_price": 130000}
+  ],
+  "монитор": [
+    {"name": "Samsung",  "min_price": 10000, "max_price": 80000},
+    {"name": "LG",       "min_price": 9000,  "max_price": 90000},
+    {"name": "ASUS",     "min_price": 12000, "max_price": 120000},
+    {"name": "Acer",     "min_price": 8000,  "max_price": 70000},
+    {"name": "Dell",     "min_price": 11000, "max_price": 100000},
+    {"name": "BenQ",     "min_price": 10000, "max_price": 80000},
+    {"name": "AOC",      "min_price": 8000,  "max_price": 50000}
+  ],
+  "наушники": [
+    {"name": "Apple",       "min_price": 3000,  "max_price": 60000},
+    {"name": "Sony",        "min_price": 2000,  "max_price": 50000},
+    {"name": "JBL",         "min_price": 1500,  "max_price": 30000},
+    {"name": "Sennheiser",  "min_price": 3000,  "max_price": 80000},
+    {"name": "Xiaomi",      "min_price": 800,   "max_price": 15000},
+    {"name": "Samsung",     "min_price": 2000,  "max_price": 25000},
+    {"name": "Huawei",      "min_price": 2500,  "max_price": 20000},
+    {"name": "Marshall",    "min_price": 5000,  "max_price": 40000}
+  ],
+  "колонка": [
+    {"name": "JBL",       "min_price": 2000, "max_price": 40000},
+    {"name": "Sony",      "min_price": 3000, "max_price": 50000},
+    {"name": "Marshall",  "min_price": 8000, "max_price": 60000},
+    {"name": "Xiaomi",    "min_price": 1500, "max_price": 20000},
+    {"name": "Яндекс",    "min_price": 5000, "max_price": 30000},
+    {"name": "Sber",      "min_price": 4000, "max_price": 25000},
+    {"name": "VK",        "min_price": 3500, "max_price": 20000}
+  ],
+  "фотоаппарат": [
+    {"name": "Canon",     "min_price": 25000, "max_price": 300000},
+    {"name": "Nikon",     "min_price": 28000, "max_price": 350000},
+    {"name": "Sony",      "min_price": 35000, "max_price": 400000},
+    {"name": "Fujifilm",  "min_price": 40000, "max_price": 250000},
+    {"name": "Panasonic", "min_price": 30000, "max_price": 200000}
+  ],
+  "принтер": [
+    {"name": "HP",     "min_price": 5000, "max_price": 60000},
+    {"name": "Canon",  "min_price": 6000, "max_price": 70000},
+    {"name": "Epson",  "min_price": 7000, "max_price": 80000},
+    {"name": "Xerox",  "min_price": 8000, "max_price": 90000},
+    {"name": "Brother","min_price": 6500, "max_price": 65000},
+    {"name": "Pantum", "min_price": 5000, "max_price": 30000}
+  ],
+  "роутер": [
+    {"name": "TP-Link",   "min_price": 1000, "max_price": 20000},
+    {"name": "D-Link",    "min_price": 900,  "max_price": 15000},
+    {"name": "Keenetic",  "min_price": 2000, "max_price": 30000},
+    {"name": "ASUS",      "min_price": 3000, "max_price": 40000},
+    {"name": "Xiaomi",    "min_price": 1500, "max_price": 15000},
+    {"name": "MikroTik",  "min_price": 4000, "max_price": 35000}
+  ],
+  "жёсткий диск": [
+    {"name": "WD",         "min_price": 3000, "max_price": 40000},
+    {"name": "Seagate",    "min_price": 3000, "max_price": 40000},
+    {"name": "Toshiba",    "min_price": 2500, "max_price": 25000},
+    {"name": "Samsung",    "min_price": 4000, "max_price": 50000},
+    {"name": "Kingston",   "min_price": 2500, "max_price": 30000}
+  ],
+  "клавиатура": [
+    {"name": "Logitech",  "min_price": 1500, "max_price": 25000},
+    {"name": "Razer",     "min_price": 4000, "max_price": 40000},
+    {"name": "HyperX",    "min_price": 3500, "max_price": 30000},
+    {"name": "SteelSeries","min_price": 3000, "max_price": 30000},
+    {"name": "Redragon",  "min_price": 1500, "max_price": 15000},
+    {"name": "A4Tech",    "min_price": 800,  "max_price": 8000}
+  ],
+  "мышь": [
+    {"name": "Logitech",  "min_price": 800,  "max_price": 15000},
+    {"name": "Razer",     "min_price": 2500, "max_price": 20000},
+    {"name": "HyperX",    "min_price": 2000, "max_price": 15000},
+    {"name": "SteelSeries","min_price": 2500, "max_price": 18000},
+    {"name": "Redragon",  "min_price": 1000, "max_price": 8000},
+    {"name": "A4Tech",    "min_price": 500,  "max_price": 5000}
+  ],
+  "видеокарта": [
+    {"name": "NVIDIA",  "min_price": 20000, "max_price": 300000},
+    {"name": "AMD",     "min_price": 15000, "max_price": 200000},
+    {"name": "MSI",     "min_price": 25000, "max_price": 250000},
+    {"name": "ASUS",    "min_price": 25000, "max_price": 280000},
+    {"name": "Gigabyte","min_price": 22000, "max_price": 240000},
+    {"name": "Palit",   "min_price": 20000, "max_price": 180000}
+  ],
+  "процессор": [
+    {"name": "Intel",  "min_price": 8000,  "max_price": 100000},
+    {"name": "AMD",    "min_price": 7000,  "max_price": 90000}
+  ],
+  "оперативная память": [
+    {"name": "Kingston",   "min_price": 2000, "max_price": 30000},
+    {"name": "Corsair",    "min_price": 3000, "max_price": 40000},
+    {"name": "G.Skill",    "min_price": 3000, "max_price": 40000},
+    {"name": "Crucial",    "min_price": 2500, "max_price": 30000},
+    {"name": "HyperX",     "min_price": 3000, "max_price": 35000}
+  ],
+  "материнская плата": [
+    {"name": "ASUS",     "min_price": 8000, "max_price": 100000},
+    {"name": "MSI",      "min_price": 7000, "max_price": 90000},
+    {"name": "Gigabyte", "min_price": 7000, "max_price": 90000},
+    {"name": "ASRock",   "min_price": 6000, "max_price": 70000}
+  ],
+  "блок питания": [
+    {"name": "Corsair",    "min_price": 4000, "max_price": 40000},
+    {"name": "be quiet!",  "min_price": 5000, "max_price": 45000},
+    {"name": "Seasonic",   "min_price": 5000, "max_price": 50000},
+    {"name": "Chieftec",   "min_price": 3000, "max_price": 20000},
+    {"name": "Deepcool",   "min_price": 3500, "max_price": 25000}
+  ],
+  "умные часы": [
+    {"name": "Apple",   "min_price": 25000, "max_price": 100000},
+    {"name": "Samsung", "min_price": 15000, "max_price": 60000},
+    {"name": "Huawei",  "min_price": 10000, "max_price": 40000},
+    {"name": "Xiaomi",  "min_price": 5000,  "max_price": 25000},
+    {"name": "Garmin",  "min_price": 20000, "max_price": 120000}
+  ],
+  "фитнес-браслет": [
+    {"name": "Xiaomi",  "min_price": 2000, "max_price": 8000},
+    {"name": "Huawei",  "min_price": 2500, "max_price": 10000},
+    {"name": "Honor",   "min_price": 2000, "max_price": 7000},
+    {"name": "Samsung", "min_price": 3000, "max_price": 12000}
+  ],
+  "игровая приставка": [
+    {"name": "Sony",      "min_price": 40000, "max_price": 80000},
+    {"name": "Microsoft", "min_price": 35000, "max_price": 70000},
+    {"name": "Nintendo",  "min_price": 25000, "max_price": 45000}
+  ],
+  "проектор": [
+    {"name": "Epson",   "min_price": 30000, "max_price": 200000},
+    {"name": "BenQ",    "min_price": 35000, "max_price": 250000},
+    {"name": "Xiaomi",  "min_price": 25000, "max_price": 100000},
+    {"name": "ViewSonic","min_price": 28000, "max_price": 150000}
+  ],
+  "видеокамера": [
+    {"name": "Sony",      "min_price": 25000, "max_price": 200000},
+    {"name": "Panasonic", "min_price": 22000, "max_price": 180000},
+    {"name": "GoPro",     "min_price": 20000, "max_price": 80000},
+    {"name": "DJI",       "min_price": 25000, "max_price": 100000}
+  ],
+
+  "молоко": [
+    {"name": "Простоквашино",   "min_price": 60, "max_price": 120},
+    {"name": "Домик в деревне", "min_price": 55, "max_price": 110},
+    {"name": "Валио",           "min_price": 80, "max_price": 150},
+    {"name": "Пармалат",        "min_price": 70, "max_price": 130},
+    {"name": "Тёма",            "min_price": 50, "max_price": 100},
+    {"name": "Агуша",           "min_price": 55, "max_price": 110}
+  ],
+  "хлеб": [
+    {"name": "Хлебный дом",    "min_price": 30, "max_price": 80},
+    {"name": "Каравай",        "min_price": 25, "max_price": 70},
+    {"name": "Fazer",          "min_price": 40, "max_price": 100},
+    {"name": "Коломенское",    "min_price": 35, "max_price": 90}
+  ],
+  "сыр": [
+    {"name": "President",     "min_price": 200, "max_price": 800},
+    {"name": "Hochland",      "min_price": 150, "max_price": 600},
+    {"name": "Lambert",       "min_price": 250, "max_price": 700},
+    {"name": "Российский",    "min_price": 180, "max_price": 500},
+    {"name": "Ламбер",        "min_price": 220, "max_price": 650}
+  ],
+  "колбаса": [
+    {"name": "Мираторг",   "min_price": 300, "max_price": 900},
+    {"name": "Останкино",  "min_price": 250, "max_price": 700},
+    {"name": "Клинский",   "min_price": 200, "max_price": 600},
+    {"name": "Дымов",      "min_price": 350, "max_price": 1000}
+  ],
+  "йогурт": [
+    {"name": "Danone",     "min_price": 40, "max_price": 100},
+    {"name": "Активиа",    "min_price": 50, "max_price": 120},
+    {"name": "Чудо",       "min_price": 45, "max_price": 100},
+    {"name": "Ehrmann",    "min_price": 55, "max_price": 130},
+    {"name": "Валио",      "min_price": 60, "max_price": 140}
+  ],
+  "масло": [
+    {"name": "Слобода",         "min_price": 100, "max_price": 300},
+    {"name": "Олейна",          "min_price": 90,  "max_price": 250},
+    {"name": "Валио",           "min_price": 200, "max_price": 500},
+    {"name": "Простоквашино",   "min_price": 150, "max_price": 400}
+  ],
+  "яйца": [
+    {"name": "Роскар",       "min_price": 80, "max_price": 200},
+    {"name": "Синявинская",  "min_price": 70, "max_price": 180},
+    {"name": "Волжанин",     "min_price": 75, "max_price": 190}
+  ],
+  "крупа": [
+    {"name": "Мистраль",   "min_price": 80,  "max_price": 250},
+    {"name": "Увелка",     "min_price": 60,  "max_price": 200},
+    {"name": "Националь",  "min_price": 90,  "max_price": 300},
+    {"name": "Ярмарка",    "min_price": 50,  "max_price": 180}
+  ],
+  "макароны": [
+    {"name": "Barilla",   "min_price": 100, "max_price": 300},
+    {"name": "Макфа",     "min_price": 60,  "max_price": 200},
+    {"name": "Шебекинские","min_price": 70, "max_price": 200},
+    {"name": "Federici",  "min_price": 90,  "max_price": 250}
+  ],
+  "сок": [
+    {"name": "Я",          "min_price": 100, "max_price": 250},
+    {"name": "Добрый",     "min_price": 80,  "max_price": 200},
+    {"name": "Rich",       "min_price": 120, "max_price": 280},
+    {"name": "J7",         "min_price": 90,  "max_price": 220},
+    {"name": "Фруктовый сад","min_price": 70, "max_price": 180}
+  ],
+  "вода": [
+    {"name": "Святой источник", "min_price": 30, "max_price": 100},
+    {"name": "Bonaqua",         "min_price": 40, "max_price": 120},
+    {"name": "Aqua Minerale",   "min_price": 40, "max_price": 120},
+    {"name": "Ессентуки",       "min_price": 60, "max_price": 200},
+    {"name": "Нарзан",          "min_price": 60, "max_price": 200}
+  ],
+  "чай": [
+    {"name": "Greenfield",   "min_price": 150, "max_price": 500},
+    {"name": "Lipton",       "min_price": 120, "max_price": 400},
+    {"name": "Ahmad",        "min_price": 140, "max_price": 450},
+    {"name": "Curtis",       "min_price": 130, "max_price": 400},
+    {"name": "Майский",      "min_price": 100, "max_price": 350}
+  ],
+  "кофе": [
+    {"name": "Jacobs",   "min_price": 200, "max_price": 800},
+    {"name": "Nescafe",  "min_price": 250, "max_price": 900},
+    {"name": "Jardin",   "min_price": 300, "max_price": 1000},
+    {"name": "Lavazza",  "min_price": 400, "max_price": 1500},
+    {"name": "Paulig",   "min_price": 350, "max_price": 1200}
+  ],
+  "шоколад": [
+    {"name": "Milka",           "min_price": 80,  "max_price": 300},
+    {"name": "Alpen Gold",      "min_price": 70,  "max_price": 250},
+    {"name": "Ritter Sport",    "min_price": 100, "max_price": 350},
+    {"name": "Бабаевский",      "min_price": 80,  "max_price": 300},
+    {"name": "Красный Октябрь", "min_price": 70,  "max_price": 280}
+  ],
+  "печенье": [
+    {"name": "Юбилейное", "min_price": 50, "max_price": 200},
+    {"name": "Орео",      "min_price": 80, "max_price": 250},
+    {"name": "Барни",     "min_price": 60, "max_price": 200},
+    {"name": "Причуда",   "min_price": 40, "max_price": 150}
+  ],
+  "мясо": [
+    {"name": "Мираторг",  "min_price": 300, "max_price": 2000},
+    {"name": "Черкизово", "min_price": 250, "max_price": 1500},
+    {"name": "Ремит",     "min_price": 280, "max_price": 1700}
+  ],
+  "рыба": [
+    {"name": "Меридиан",   "min_price": 200, "max_price": 1500},
+    {"name": "Русское море","min_price": 250, "max_price": 1800},
+    {"name": "A'море",     "min_price": 300, "max_price": 2000}
+  ],
+  "овощи": [
+    {"name": "Белая Дача",   "min_price": 50, "max_price": 300},
+    {"name": "Bonduelle",    "min_price": 80, "max_price": 250},
+    {"name": "Мираторг",     "min_price": 60, "max_price": 300}
+  ],
+  "фрукты": [
+    {"name": "Chiquita",  "min_price": 100, "max_price": 400},
+    {"name": "Bonanza",   "min_price": 80,  "max_price": 350},
+    {"name": "Del Monte", "min_price": 120, "max_price": 500}
+  ],
+  "замороженные продукты": [
+    {"name": "Мираторг",  "min_price": 200, "max_price": 800},
+    {"name": "Цезарь",    "min_price": 180, "max_price": 700},
+    {"name": "Сытоедов",  "min_price": 150, "max_price": 600}
+  ],
+
+  "куртка": [
+    {"name": "Zara",         "min_price": 5000, "max_price": 20000},
+    {"name": "H&M",          "min_price": 3000, "max_price": 15000},
+    {"name": "Bershka",      "min_price": 3500, "max_price": 12000},
+    {"name": "Pull&Bear",    "min_price": 3000, "max_price": 12000},
+    {"name": "Uniqlo",       "min_price": 4000, "max_price": 18000},
+    {"name": "Columbia",     "min_price": 8000, "max_price": 40000},
+    {"name": "The North Face","min_price":10000, "max_price": 60000}
+  ],
+  "джинсы": [
+    {"name": "Levi's",    "min_price": 5000, "max_price": 20000},
+    {"name": "Zara",      "min_price": 3000, "max_price": 10000},
+    {"name": "H&M",       "min_price": 2500, "max_price": 8000},
+    {"name": "Wrangler",  "min_price": 4000, "max_price": 15000},
+    {"name": "Lee",       "min_price": 4500, "max_price": 16000},
+    {"name": "Gloria Jeans","min_price": 1500, "max_price": 5000}
+  ],
+  "футболка": [
+    {"name": "Zara",       "min_price": 1000, "max_price": 4000},
+    {"name": "H&M",        "min_price": 800,  "max_price": 3000},
+    {"name": "Uniqlo",     "min_price": 1200, "max_price": 4500},
+    {"name": "Bershka",    "min_price": 900,  "max_price": 3500},
+    {"name": "Nike",       "min_price": 2500, "max_price": 8000},
+    {"name": "Adidas",     "min_price": 2500, "max_price": 8000},
+    {"name": "Puma",       "min_price": 2000, "max_price": 7000}
+  ],
+  "платье": [
+    {"name": "Zara",      "min_price": 3000, "max_price": 12000},
+    {"name": "H&M",       "min_price": 2000, "max_price": 8000},
+    {"name": "Mango",     "min_price": 3500, "max_price": 15000},
+    {"name": "Love Republic","min_price": 3000, "max_price": 12000},
+    {"name": "12Storeez", "min_price": 8000, "max_price": 30000}
+  ],
+  "кроссовки": [
+    {"name": "Nike",         "min_price": 5000, "max_price": 25000},
+    {"name": "Adidas",       "min_price": 5000, "max_price": 25000},
+    {"name": "Puma",         "min_price": 4000, "max_price": 18000},
+    {"name": "Reebok",       "min_price": 4000, "max_price": 15000},
+    {"name": "New Balance",  "min_price": 6000, "max_price": 22000},
+    {"name": "ASICS",        "min_price": 6000, "max_price": 20000},
+    {"name": "Skechers",     "min_price": 4000, "max_price": 12000}
+  ],
+  "ботинки": [
+    {"name": "Ecco",       "min_price": 8000, "max_price": 30000},
+    {"name": "Timberland", "min_price": 10000,"max_price": 40000},
+    {"name": "Rieker",     "min_price": 5000, "max_price": 18000},
+    {"name": "Salamander", "min_price": 8000, "max_price": 25000}
+  ],
+  "шапка": [
+    {"name": "Zara",   "min_price": 800,  "max_price": 3000},
+    {"name": "H&M",    "min_price": 600,  "max_price": 2500},
+    {"name": "Nike",   "min_price": 1500, "max_price": 4000},
+    {"name": "Adidas", "min_price": 1500, "max_price": 4000}
+  ],
+  "свитер": [
+    {"name": "Uniqlo",  "min_price": 2500, "max_price": 8000},
+    {"name": "Zara",    "min_price": 2500, "max_price": 9000},
+    {"name": "H&M",     "min_price": 2000, "max_price": 7000},
+    {"name": "Mango",   "min_price": 3000, "max_price": 10000}
+  ],
+  "рубашка": [
+    {"name": "Zara",       "min_price": 2000, "max_price": 8000},
+    {"name": "H&M",        "min_price": 1500, "max_price": 6000},
+    {"name": "Massimo Dutti","min_price": 4000, "max_price": 15000},
+    {"name": "Henderson",  "min_price": 3000, "max_price": 12000}
+  ],
+  "юбка": [
+    {"name": "Zara",  "min_price": 2000, "max_price": 7000},
+    {"name": "H&M",   "min_price": 1500, "max_price": 5000},
+    {"name": "Mango", "min_price": 2500, "max_price": 8000}
+  ],
+  "костюм": [
+    {"name": "Henderson",   "min_price": 15000, "max_price": 60000},
+    {"name": "Massimo Dutti","min_price": 20000, "max_price": 80000},
+    {"name": "Zara",        "min_price": 10000, "max_price": 40000}
+  ],
+  "пальто": [
+    {"name": "Zara",   "min_price": 8000,  "max_price": 30000},
+    {"name": "H&M",    "min_price": 6000,  "max_price": 25000},
+    {"name": "Mango",  "min_price": 10000, "max_price": 35000}
+  ],
+  "шорты": [
+    {"name": "Nike",   "min_price": 2000, "max_price": 6000},
+    {"name": "Adidas", "min_price": 2000, "max_price": 6000},
+    {"name": "Zara",   "min_price": 1500, "max_price": 5000}
+  ],
+  "носки": [
+    {"name": "Nike",    "min_price": 500, "max_price": 2000},
+    {"name": "Adidas",  "min_price": 500, "max_price": 2000},
+    {"name": "Uniqlo",  "min_price": 400, "max_price": 1500}
+  ],
+  "нижнее бельё": [
+    {"name": "Calvin Klein",  "min_price": 3000, "max_price": 12000},
+    {"name": "Intimissimi",   "min_price": 2000, "max_price": 8000},
+    {"name": "Women'secret",  "min_price": 1500, "max_price": 6000}
+  ],
+
+  "краска": [
+    {"name": "Tikkurila", "min_price": 2000, "max_price": 15000},
+    {"name": "Dulux",     "min_price": 1500, "max_price": 12000},
+    {"name": "Caparol",   "min_price": 2500, "max_price": 18000},
+    {"name": "Текс",      "min_price": 800,  "max_price": 6000}
+  ],
+  "обои": [
+    {"name": "Erismann",  "min_price": 800,  "max_price": 5000},
+    {"name": "A.S.Creation","min_price":1500,"max_price": 8000},
+    {"name": "Palitra",   "min_price": 600,  "max_price": 3500}
+  ],
+  "плитка": [
+    {"name": "Kerama Marazzi", "min_price": 500, "max_price": 5000},
+    {"name": "Cersanit",       "min_price": 400, "max_price": 4000},
+    {"name": "Уралкерамика",   "min_price": 300, "max_price": 3000}
+  ],
+  "ламинат": [
+    {"name": "Kronospan",   "min_price": 500, "max_price": 3000},
+    {"name": "Tarkett",     "min_price": 700, "max_price": 4000},
+    {"name": "Egger",       "min_price": 800, "max_price": 4500}
+  ],
+  "цемент": [
+    {"name": "Евроцемент", "min_price": 200, "max_price": 800},
+    {"name": "Holcim",     "min_price": 250, "max_price": 900}
+  ],
+  "инструменты": [
+    {"name": "Bosch",     "min_price": 2000, "max_price": 40000},
+    {"name": "Makita",    "min_price": 2500, "max_price": 50000},
+    {"name": "DeWalt",    "min_price": 3000, "max_price": 60000},
+    {"name": "Интерскол", "min_price": 1500, "max_price": 20000}
+  ],
+  "смеситель": [
+    {"name": "Grohe",   "min_price": 5000, "max_price": 40000},
+    {"name": "Hansgrohe","min_price": 6000,"max_price": 45000},
+    {"name": "Lemark",  "min_price": 2000, "max_price": 15000}
+  ],
+  "унитаз": [
+    {"name": "Roca",       "min_price": 8000, "max_price": 50000},
+    {"name": "Cersanit",   "min_price": 5000, "max_price": 25000},
+    {"name": "IDDIS",      "min_price": 6000, "max_price": 30000}
+  ],
+  "плинтус": [
+    {"name": "Arbiton", "min_price": 200, "max_price": 1500},
+    {"name": "Идеал",   "min_price": 150, "max_price": 1000}
+  ],
+  "гипсокартон": [
+    {"name": "Knauf",   "min_price": 300, "max_price": 1200},
+    {"name": "Волма",   "min_price": 250, "max_price": 1000}
+  ],
+  "провода": [
+    {"name": "Rexant",  "min_price": 500, "max_price": 5000},
+    {"name": "Legrand", "min_price": 800, "max_price": 8000}
+  ],
+  "лампочки": [
+    {"name": "Philips",  "min_price": 100, "max_price": 800},
+    {"name": "Osram",    "min_price": 120, "max_price": 900},
+    {"name": "Gauss",    "min_price": 80,  "max_price": 600}
+  ],
+
+  "художественная литература": [
+    {"name": "АСТ",          "min_price": 300, "max_price": 1500},
+    {"name": "Эксмо",        "min_price": 300, "max_price": 1500},
+    {"name": "Азбука",       "min_price": 400, "max_price": 1800},
+    {"name": "МИФ",          "min_price": 500, "max_price": 2000}
+  ],
+  "учебник": [
+    {"name": "Просвещение",  "min_price": 400, "max_price": 2000},
+    {"name": "Дрофа",        "min_price": 350, "max_price": 1800},
+    {"name": "Вентана-Граф", "min_price": 400, "max_price": 1900}
+  ],
+  "детская книга": [
+    {"name": "Росмэн",     "min_price": 200, "max_price": 1200},
+    {"name": "Махаон",     "min_price": 250, "max_price": 1500},
+    {"name": "Клевер",     "min_price": 300, "max_price": 1500}
+  ],
+  "бизнес-литература": [
+    {"name": "МИФ",           "min_price": 500, "max_price": 2500},
+    {"name": "Альпина",       "min_price": 500, "max_price": 2500},
+    {"name": "Бомбора",       "min_price": 400, "max_price": 2000}
+  ],
+  "комикс": [
+    {"name": "Marvel",     "min_price": 400, "max_price": 2000},
+    {"name": "DC",         "min_price": 400, "max_price": 2000},
+    {"name": "Bubble",     "min_price": 300, "max_price": 1500}
+  ],
+  "словарь": [
+    {"name": "Русский язык", "min_price": 300, "max_price": 1500},
+    {"name": "Оксфорд",      "min_price": 500, "max_price": 3000}
+  ],
+  "энциклопедия": [
+    {"name": "Росмэн",     "min_price": 500, "max_price": 3000},
+    {"name": "АСТ",        "min_price": 600, "max_price": 3500}
+  ],
+
+  "шампунь": [
+    {"name": "Head & Shoulders", "min_price": 200, "max_price": 800},
+    {"name": "Pantene",          "min_price": 250, "max_price": 900},
+    {"name": "Nivea",            "min_price": 200, "max_price": 700},
+    {"name": "Schauma",          "min_price": 150, "max_price": 500},
+    {"name": "Loreal",           "min_price": 300, "max_price": 1200}
+  ],
+  "крем для лица": [
+    {"name": "Nivea",       "min_price": 200, "max_price": 800},
+    {"name": "Garnier",     "min_price": 250, "max_price": 900},
+    {"name": "L'Oreal",     "min_price": 400, "max_price": 1500},
+    {"name": "Vichy",       "min_price": 1000,"max_price": 4000},
+    {"name": "La Roche-Posay","min_price": 1200,"max_price": 5000}
+  ],
+  "тушь": [
+    {"name": "Maybelline",  "min_price": 300, "max_price": 1200},
+    {"name": "L'Oreal",     "min_price": 400, "max_price": 1500},
+    {"name": "Max Factor",  "min_price": 350, "max_price": 1300},
+    {"name": "Lancome",     "min_price": 2000,"max_price": 5000}
+  ],
+  "помада": [
+    {"name": "Maybelline",  "min_price": 300, "max_price": 1000},
+    {"name": "L'Oreal",     "min_price": 400, "max_price": 1500},
+    {"name": "MAC",         "min_price": 1500,"max_price": 4000},
+    {"name": "Chanel",      "min_price": 3000,"max_price": 6000}
+  ],
+  "духи": [
+    {"name": "Chanel",     "min_price": 5000, "max_price": 20000},
+    {"name": "Dior",       "min_price": 5000, "max_price": 20000},
+    {"name": "Hugo Boss",  "min_price": 3000, "max_price": 12000},
+    {"name": "Calvin Klein","min_price": 2500,"max_price": 10000},
+    {"name": "Lacoste",    "min_price": 3000, "max_price": 11000}
+  ],
+  "гель для душа": [
+    {"name": "Nivea",   "min_price": 150, "max_price": 500},
+    {"name": "Dove",    "min_price": 200, "max_price": 600},
+    {"name": "Palmolive","min_price": 150,"max_price": 500},
+    {"name": "Fa",      "min_price": 130, "max_price": 450}
+  ],
+  "зубная паста": [
+    {"name": "Colgate",   "min_price": 100, "max_price": 400},
+    {"name": "Blend-a-med","min_price": 120,"max_price": 500},
+    {"name": "Splat",     "min_price": 200, "max_price": 700},
+    {"name": "Sensodyne", "min_price": 250, "max_price": 800}
+  ],
+  "дезодорант": [
+    {"name": "Rexona",   "min_price": 150, "max_price": 500},
+    {"name": "Nivea",    "min_price": 180, "max_price": 550},
+    {"name": "Old Spice","min_price": 200, "max_price": 600},
+    {"name": "Axe",      "min_price": 180, "max_price": 550}
+  ],
+  "маска для лица": [
+    {"name": "Garnier",  "min_price": 100, "max_price": 400},
+    {"name": "L'Oreal",  "min_price": 150, "max_price": 500},
+    {"name": "Tony Moly","min_price": 200, "max_price": 700}
+  ],
+
+  "гантели": [
+    {"name": "Torneo",       "min_price": 1000, "max_price": 10000},
+    {"name": "Kettler",      "min_price": 2000, "max_price": 20000},
+    {"name": "Body Sculpture","min_price": 1500,"max_price": 15000}
+  ],
+  "коврик для йоги": [
+    {"name": "Nike",     "min_price": 2000, "max_price": 6000},
+    {"name": "Adidas",   "min_price": 2000, "max_price": 6000},
+    {"name": "Torneo",   "min_price": 800,  "max_price": 3000}
+  ],
+  "велосипед": [
+    {"name": "Stels",   "min_price": 10000, "max_price": 40000},
+    {"name": "Merida",  "min_price": 20000, "max_price": 100000},
+    {"name": "Giant",   "min_price": 25000, "max_price": 150000},
+    {"name": "Trek",    "min_price": 30000, "max_price": 200000},
+    {"name": "Forward", "min_price": 8000,  "max_price": 30000}
+  ],
+  "мяч": [
+    {"name": "Nike",    "min_price": 1500, "max_price": 6000},
+    {"name": "Adidas",  "min_price": 1500, "max_price": 6000},
+    {"name": "Mikasa",  "min_price": 2000, "max_price": 8000},
+    {"name": "Molten",  "min_price": 2500, "max_price": 10000}
+  ],
+  "спортивная одежда": [
+    {"name": "Nike",    "min_price": 2000, "max_price": 15000},
+    {"name": "Adidas",  "min_price": 2000, "max_price": 15000},
+    {"name": "Puma",    "min_price": 1800, "max_price": 12000},
+    {"name": "Under Armour","min_price": 3000,"max_price": 18000},
+    {"name": "Reebok",  "min_price": 1800, "max_price": 12000}
+  ],
+  "ракетка": [
+    {"name": "Wilson", "min_price": 3000, "max_price": 25000},
+    {"name": "Head",   "min_price": 3500, "max_price": 28000},
+    {"name": "Yonex",  "min_price": 4000, "max_price": 30000}
+  ],
+  "самокат": [
+    {"name": "Xiaomi",  "min_price": 15000, "max_price": 50000},
+    {"name": "Ninebot", "min_price": 20000, "max_price": 80000},
+    {"name": "Kugoo",   "min_price": 18000, "max_price": 70000}
+  ],
+
+  "диван": [
+    {"name": "IKEA",       "min_price": 15000, "max_price": 80000},
+    {"name": "Hoff",       "min_price": 20000, "max_price": 120000},
+    {"name": "Много Мебели","min_price": 12000,"max_price": 60000},
+    {"name": "Askona",     "min_price": 25000, "max_price": 150000}
+  ],
+  "стол": [
+    {"name": "IKEA",       "min_price": 5000, "max_price": 40000},
+    {"name": "Hoff",       "min_price": 6000, "max_price": 50000},
+    {"name": "Столплит",   "min_price": 4000, "max_price": 30000}
+  ],
+  "стул": [
+    {"name": "IKEA",     "min_price": 2000, "max_price": 15000},
+    {"name": "Hoff",     "min_price": 2500, "max_price": 18000},
+    {"name": "Столплит", "min_price": 1500, "max_price": 12000}
+  ],
+  "кровать": [
+    {"name": "Askona",  "min_price": 20000, "max_price": 120000},
+    {"name": "IKEA",    "min_price": 15000, "max_price": 80000},
+    {"name": "Hoff",    "min_price": 18000, "max_price": 100000},
+    {"name": "Орматек", "min_price": 22000, "max_price": 130000}
+  ],
+  "шкаф": [
+    {"name": "IKEA",       "min_price": 10000, "max_price": 60000},
+    {"name": "Hoff",       "min_price": 12000, "max_price": 80000},
+    {"name": "Столплит",   "min_price": 8000,  "max_price": 50000}
+  ],
+  "тумба": [
+    {"name": "IKEA",    "min_price": 3000, "max_price": 20000},
+    {"name": "Hoff",    "min_price": 4000, "max_price": 25000}
+  ],
+  "полка": [
+    {"name": "IKEA",    "min_price": 1000, "max_price": 8000},
+    {"name": "Hoff",    "min_price": 1500, "max_price": 10000}
+  ],
+  "сухой корм для собак": [
+    {"name": "Purina Pro Plan", "min_price": 1500, "max_price": 12000},
+    {"name": "Hill's Science Plan", "min_price": 1800, "max_price": 14000},
+    {"name": "Eukanuba", "min_price": 1300, "max_price": 9000},
+    {"name": "Acana", "min_price": 2500, "max_price": 18000},
+    {"name": "Orijen", "min_price": 3500, "max_price": 22000},
+    {"name": "Monge", "min_price": 1200, "max_price": 11000}
+  ],
+  "конструктор": [
+    {"name": "LEGO", "min_price": 500, "max_price": 50000},
+    {"name": "Playmobil", "min_price": 1000, "max_price": 18000},
+    {"name": "Mattel", "min_price": 300, "max_price": 12000},
+    {"name": "Hasbro", "min_price": 400, "max_price": 15000},
+    {"name": "Spin Master", "min_price": 500, "max_price": 10000},
+    {"name": "Ravensburger", "min_price": 700, "max_price": 12000}
+  ],
+  "подгузники": [
+    {"name": "Pampers", "min_price": 500, "max_price": 3500},
+    {"name": "Huggies", "min_price": 450, "max_price": 3000},
+    {"name": "Libero", "min_price": 500, "max_price": 3200},
+    {"name": "Merries", "min_price": 700, "max_price": 4000},
+    {"name": "Moony", "min_price": 700, "max_price": 4200},
+    {"name": "Goo.N", "min_price": 650, "max_price": 3800}
+  ],
+  "автомобильная шина": [
+    {"name": "Nokian Tyres", "min_price": 4500, "max_price": 30000},
+    {"name": "Goodyear", "min_price": 4000, "max_price": 28000},
+    {"name": "Yokohama", "min_price": 4200, "max_price": 29000},
+    {"name": "Hankook", "min_price": 3800, "max_price": 25000},
+    {"name": "Toyo Tires", "min_price": 4000, "max_price": 27000},
+    {"name": "Gislaved", "min_price": 3500, "max_price": 22000}
+  ],
+  "моторное масло": [
+    {"name": "Mobil 1", "min_price": 900, "max_price": 9000},
+    {"name": "Castrol", "min_price": 800, "max_price": 7500},
+    {"name": "Shell Helix", "min_price": 700, "max_price": 7000},
+    {"name": "Liqui Moly", "min_price": 1200, "max_price": 11000},
+    {"name": "Motul", "min_price": 1100, "max_price": 10000},
+    {"name": "TotalEnergies Quartz", "min_price": 750, "max_price": 7000}
+  ],
+  "кастрюля": [
+    {"name": "Tefal", "min_price": 1200, "max_price": 12000},
+    {"name": "Zwilling", "min_price": 4000, "max_price": 35000},
+    {"name": "WMF", "min_price": 3500, "max_price": 30000},
+    {"name": "Rondell", "min_price": 1000, "max_price": 9000},
+    {"name": "Kukmara", "min_price": 700, "max_price": 6000},
+    {"name": "Gipfel", "min_price": 1500, "max_price": 15000}
+  ],
+  "пылесос": [
+    {"name": "Dyson", "min_price": 18000, "max_price": 100000},
+    {"name": "Miele", "min_price": 15000, "max_price": 90000},
+    {"name": "Thomas", "min_price": 9000, "max_price": 45000},
+    {"name": "Karcher", "min_price": 5000, "max_price": 50000},
+    {"name": "Bissell", "min_price": 7000, "max_price": 50000},
+    {"name": "Rowenta", "min_price": 4000, "max_price": 35000}
+  ],
+  "электродрель": [
+    {"name": "Makita", "min_price": 4000, "max_price": 30000},
+    {"name": "DeWalt", "min_price": 5000, "max_price": 40000},
+    {"name": "Bosch Professional", "min_price": 4500, "max_price": 35000},
+    {"name": "Metabo", "min_price": 5000, "max_price": 38000},
+    {"name": "Einhell", "min_price": 2500, "max_price": 18000},
+    {"name": "Milwaukee", "min_price": 7000, "max_price": 50000}
+  ],
+  "газонокосилка": [
+    {"name": "Husqvarna", "min_price": 18000, "max_price": 150000},
+    {"name": "Stiga", "min_price": 16000, "max_price": 120000},
+    {"name": "AL-KO", "min_price": 12000, "max_price": 90000},
+    {"name": "Gardena", "min_price": 10000, "max_price": 80000},
+    {"name": "Greenworks", "min_price": 9000, "max_price": 70000},
+    {"name": "Champion", "min_price": 8000, "max_price": 60000}
+  ],
+  "душевая система": [
+    {"name": "Grohe", "min_price": 5000, "max_price": 80000},
+    {"name": "Hansgrohe", "min_price": 6000, "max_price": 90000},
+    {"name": "Jacob Delafon", "min_price": 4000, "max_price": 60000},
+    {"name": "Roca", "min_price": 3500, "max_price": 50000},
+    {"name": "Ideal Standard", "min_price": 4500, "max_price": 65000},
+    {"name": "Geberit", "min_price": 7000, "max_price": 100000}
+  ],
+  "туристическая палатка": [
+    {"name": "The North Face", "min_price": 15000, "max_price": 100000},
+    {"name": "MSR", "min_price": 20000, "max_price": 120000},
+    {"name": "Coleman", "min_price": 5000, "max_price": 50000},
+    {"name": "Outwell", "min_price": 8000, "max_price": 80000},
+    {"name": "Naturehike", "min_price": 5000, "max_price": 45000},
+    {"name": "Tramp", "min_price": 4000, "max_price": 40000}
+  ],
+  "акустическая гитара": [
+    {"name": "Fender", "min_price": 12000, "max_price": 120000},
+    {"name": "Gibson", "min_price": 80000, "max_price": 500000},
+    {"name": "Ibanez", "min_price": 15000, "max_price": 180000},
+    {"name": "Epiphone", "min_price": 20000, "max_price": 160000},
+    {"name": "Cort", "min_price": 10000, "max_price": 90000},
+    {"name": "Takamine", "min_price": 25000, "max_price": 220000}
+  ],
+  "шариковая ручка": [
+    {"name": "Parker", "min_price": 300, "max_price": 30000},
+    {"name": "Waterman", "min_price": 1000, "max_price": 50000},
+    {"name": "Cross", "min_price": 1000, "max_price": 40000},
+    {"name": "Lamy", "min_price": 500, "max_price": 20000},
+    {"name": "Faber-Castell", "min_price": 100, "max_price": 12000},
+    {"name": "Pilot", "min_price": 50, "max_price": 5000}
+  ],
+  "наручные часы": [
+    {"name": "Casio", "min_price": 1000, "max_price": 40000},
+    {"name": "Tissot", "min_price": 15000, "max_price": 150000},
+    {"name": "Seiko", "min_price": 10000, "max_price": 120000},
+    {"name": "Citizen", "min_price": 8000, "max_price": 100000},
+    {"name": "Orient", "min_price": 7000, "max_price": 60000},
+    {"name": "Swatch", "min_price": 4000, "max_price": 30000}
+  ],
+  "городской рюкзак": [
+    {"name": "Deuter", "min_price": 3000, "max_price": 30000},
+    {"name": "Osprey", "min_price": 5000, "max_price": 50000},
+    {"name": "Thule", "min_price": 4000, "max_price": 45000},
+    {"name": "Tatonka", "min_price": 3500, "max_price": 35000},
+    {"name": "Dakine", "min_price": 2500, "max_price": 25000},
+    {"name": "Herschel", "min_price": 3000, "max_price": 30000}
+  ],
+  "золотые серьги": [
+    {"name": "Sokolov", "min_price": 5000, "max_price": 150000},
+    {"name": "Pandora", "min_price": 3000, "max_price": 60000},
+    {"name": "Sunlight", "min_price": 2000, "max_price": 100000},
+    {"name": "Tous", "min_price": 8000, "max_price": 120000},
+    {"name": "Swarovski", "min_price": 5000, "max_price": 80000},
+    {"name": "Tiffany & Co.", "min_price": 30000, "max_price": 1000000}
+  ],
+  "тонометр": [
+    {"name": "Omron", "min_price": 1500, "max_price": 15000},
+    {"name": "AND", "min_price": 1200, "max_price": 12000},
+    {"name": "Microlife", "min_price": 1800, "max_price": 14000},
+    {"name": "B.Well", "min_price": 1000, "max_price": 9000},
+    {"name": "Little Doctor", "min_price": 900, "max_price": 8000},
+    {"name": "Beurer", "min_price": 2000, "max_price": 16000}
+  ],
+  "солнцезащитные очки": [
+    {"name": "Ray-Ban", "min_price": 5000, "max_price": 40000},
+    {"name": "Oakley", "min_price": 6000, "max_price": 50000},
+    {"name": "Polaroid", "min_price": 2000, "max_price": 15000},
+    {"name": "Persol", "min_price": 8000, "max_price": 60000},
+    {"name": "Carrera", "min_price": 4000, "max_price": 30000},
+    {"name": "Vogue Eyewear", "min_price": 3000, "max_price": 25000}
+  ],
+  "автомобильный аккумулятор": [
+    {"name": "Varta", "min_price": 5000, "max_price": 30000},
+    {"name": "Bosch Automotive", "min_price": 5500, "max_price": 32000},
+    {"name": "Exide", "min_price": 4500, "max_price": 28000},
+    {"name": "Mutlu", "min_price": 4000, "max_price": 25000},
+    {"name": "Akom", "min_price": 3500, "max_price": 22000},
+    {"name": "Topla", "min_price": 5000, "max_price": 30000}
+  ],
+  "велосипедный шлем": [
+    {"name": "Giro", "min_price": 3000, "max_price": 30000},
+    {"name": "Bell", "min_price": 2500, "max_price": 25000},
+    {"name": "Abus", "min_price": 3000, "max_price": 35000},
+    {"name": "Uvex", "min_price": 2500, "max_price": 30000},
+    {"name": "POC", "min_price": 7000, "max_price": 50000},
+    {"name": "Lazer", "min_price": 3500, "max_price": 30000}
+  ],
+  "банное полотенце": [
+    {"name": "Karna", "min_price": 500, "max_price": 5000},
+    {"name": "Togas", "min_price": 1000, "max_price": 12000},
+    {"name": "Arya Home", "min_price": 700, "max_price": 7000},
+    {"name": "Cleanelly", "min_price": 400, "max_price": 4000},
+    {"name": "Sofi De Marko", "min_price": 600, "max_price": 6000},
+    {"name": "Mona Liza", "min_price": 300, "max_price": 3000}
+  ],
+  "комплект постельного белья": [
+    {"name": "Tac", "min_price": 2000, "max_price": 25000},
+    {"name": "Asabella", "min_price": 2500, "max_price": 30000},
+    {"name": "Valtery", "min_price": 1500, "max_price": 18000},
+    {"name": "Ecotex", "min_price": 1200, "max_price": 15000},
+    {"name": "Ночь Нежна", "min_price": 1000, "max_price": 12000},
+    {"name": "Cotton Dreams", "min_price": 3000, "max_price": 35000}
+  ],
+  "потолочный светильник": [
+    {"name": "Maytoni", "min_price": 1500, "max_price": 50000},
+    {"name": "Lightstar", "min_price": 1000, "max_price": 40000},
+    {"name": "Odeon Light", "min_price": 1200, "max_price": 45000},
+    {"name": "Arte Lamp", "min_price": 800, "max_price": 30000},
+    {"name": "Novotech", "min_price": 700, "max_price": 25000},
+    {"name": "Eglo", "min_price": 1500, "max_price": 50000}
+  ],
+  "камера видеонаблюдения": [
+    {"name": "Hikvision", "min_price": 2000, "max_price": 50000},
+    {"name": "Dahua", "min_price": 1800, "max_price": 45000},
+    {"name": "Ezviz", "min_price": 2500, "max_price": 20000},
+    {"name": "Reolink", "min_price": 3000, "max_price": 30000},
+    {"name": "TP-Link VIGI", "min_price": 2500, "max_price": 25000},
+    {"name": "HiWatch", "min_price": 1500, "max_price": 30000}
+  ],
+  "кофемашина": [
+    {"name": "Jura", "min_price": 40000, "max_price": 300000},
+    {"name": "Krups", "min_price": 15000, "max_price": 100000},
+    {"name": "Melitta", "min_price": 20000, "max_price": 150000},
+    {"name": "Nivona", "min_price": 25000, "max_price": 180000},
+    {"name": "Saeco", "min_price": 18000, "max_price": 140000},
+    {"name": "Gaggia", "min_price": 20000, "max_price": 160000}
+  ],
+  "кондиционер": [
+    {"name": "Daikin", "min_price": 30000, "max_price": 200000},
+    {"name": "Mitsubishi Electric", "min_price": 40000, "max_price": 250000},
+    {"name": "Fujitsu", "min_price": 35000, "max_price": 220000},
+    {"name": "Gree", "min_price": 25000, "max_price": 150000},
+    {"name": "Ballu", "min_price": 18000, "max_price": 100000},
+    {"name": "Hisense Climate", "min_price": 20000, "max_price": 120000}
+  ],
+  "мобильный роутер": [
+    {"name": "ZTE", "min_price": 2000, "max_price": 15000},
+    {"name": "Keenetic", "min_price": 3000, "max_price": 25000},
+    {"name": "MikroTik", "min_price": 4000, "max_price": 40000},
+    {"name": "Ubiquiti", "min_price": 6000, "max_price": 50000},
+    {"name": "Zyxel", "min_price": 2500, "max_price": 20000},
+    {"name": "Netgear", "min_price": 4000, "max_price": 35000}
+  ],
+  "сканер": [
+    {"name": "Epson", "min_price": 5000, "max_price": 60000},
+    {"name": "Fujitsu", "min_price": 10000, "max_price": 120000},
+    {"name": "Plustek", "min_price": 6000, "max_price": 50000},
+    {"name": "Mustek", "min_price": 3000, "max_price": 25000},
+    {"name": "Avision", "min_price": 7000, "max_price": 80000},
+    {"name": "CZUR", "min_price": 10000, "max_price": 90000}
+  ],
+  "акриловые краски": [
+    {"name": "Liquitex", "min_price": 300, "max_price": 6000},
+    {"name": "Amsterdam", "min_price": 250, "max_price": 5000},
+    {"name": "Pebeo", "min_price": 200, "max_price": 4000},
+    {"name": "Golden", "min_price": 500, "max_price": 8000},
+    {"name": "Vallejo", "min_price": 200, "max_price": 5000},
+    {"name": "Winsor & Newton", "min_price": 300, "max_price": 7000}
+  ],
+  "спиннинг": [
+    {"name": "Shimano", "min_price": 3000, "max_price": 80000},
+    {"name": "Daiwa", "min_price": 3500, "max_price": 90000},
+    {"name": "Abu Garcia", "min_price": 4000, "max_price": 70000},
+    {"name": "Major Craft", "min_price": 5000, "max_price": 60000},
+    {"name": "Graphiteleader", "min_price": 10000, "max_price": 100000},
+    {"name": "Norstream", "min_price": 3000, "max_price": 50000}
+  ],
+  "наполнитель для кошачьего туалета": [
+    {"name": "Catsan", "min_price": 300, "max_price": 2000},
+    {"name": "Ever Clean", "min_price": 800, "max_price": 5000},
+    {"name": "Fresh Step", "min_price": 500, "max_price": 3000},
+    {"name": "Pi-Pi-Bent", "min_price": 200, "max_price": 1500},
+    {"name": "Барсик", "min_price": 100, "max_price": 800},
+    {"name": "Sanicat", "min_price": 300, "max_price": 2500}
+  ],
+  "туалетная вода": [
+    {"name": "Guerlain", "min_price": 5000, "max_price": 50000},
+    {"name": "Givenchy", "min_price": 4000, "max_price": 40000},
+    {"name": "Versace", "min_price": 3000, "max_price": 35000},
+    {"name": "Bvlgari", "min_price": 4000, "max_price": 45000},
+    {"name": "Yves Saint Laurent", "min_price": 5000, "max_price": 55000},
+    {"name": "Hermes", "min_price": 6000, "max_price": 60000}
+  ],
+  "защитный шлем": [
+    {"name": "Fox Racing", "min_price": 5000, "max_price": 40000},
+    {"name": "Troy Lee Designs", "min_price": 7000, "max_price": 50000},
+    {"name": "Leatt", "min_price": 8000, "max_price": 60000},
+    {"name": "Alpinestars", "min_price": 6000, "max_price": 50000},
+    {"name": "O'Neal", "min_price": 4000, "max_price": 30000},
+    {"name": "Kenny Racing", "min_price": 5000, "max_price": 35000}
+  ],
+  "треккинговые ботинки": [
+    {"name": "Salomon", "min_price": 7000, "max_price": 40000},
+    {"name": "Merrell", "min_price": 8000, "max_price": 45000},
+    {"name": "Lowa", "min_price": 12000, "max_price": 60000},
+    {"name": "Meindl", "min_price": 15000, "max_price": 70000},
+    {"name": "Scarpa", "min_price": 13000, "max_price": 65000},
+    {"name": "La Sportiva", "min_price": 14000, "max_price": 70000}
+  ],
+  "кожаный ремень": [
+    {"name": "Montblanc", "min_price": 10000, "max_price": 80000},
+    {"name": "Boss", "min_price": 5000, "max_price": 35000},
+    {"name": "Tommy Hilfiger", "min_price": 3000, "max_price": 20000},
+    {"name": "Calvin Klein", "min_price": 3000, "max_price": 22000},
+    {"name": "Lacoste", "min_price": 4000, "max_price": 25000},
+    {"name": "Armani Exchange", "min_price": 4000, "max_price": 30000}
+  ],
+  "садовая теплица": [
+    {"name": "Воля", "min_price": 15000, "max_price": 150000},
+    {"name": "Кремлёвская", "min_price": 20000, "max_price": 180000},
+    {"name": "Дачная", "min_price": 12000, "max_price": 100000},
+    {"name": "Богатый урожай", "min_price": 8000, "max_price": 70000},
+    {"name": "Greenhouse", "min_price": 10000, "max_price": 90000},
+    {"name": "ShelterLogic", "min_price": 15000, "max_price": 120000}
+  ],
+  "насос для бассейна": [
+    {"name": "Intex", "min_price": 2000, "max_price": 25000},
+    {"name": "Bestway", "min_price": 2000, "max_price": 22000},
+    {"name": "Hayward", "min_price": 15000, "max_price": 100000},
+    {"name": "AstralPool", "min_price": 12000, "max_price": 90000},
+    {"name": "Emaux", "min_price": 8000, "max_price": 60000},
+    {"name": "Espa", "min_price": 10000, "max_price": 80000}
+  ],
+  "лазерный уровень": [
+    {"name": "Leica Geosystems", "min_price": 15000, "max_price": 150000},
+    {"name": "Hilti", "min_price": 20000, "max_price": 180000},
+    {"name": "Stabila", "min_price": 8000, "max_price": 80000},
+    {"name": "ADA Instruments", "min_price": 5000, "max_price": 50000},
+    {"name": "Condtrol", "min_price": 4000, "max_price": 40000},
+    {"name": "RGK", "min_price": 5000, "max_price": 60000}
+  ],
+  "компьютерная игра": [
+    {"name": "Nintendo", "min_price": 1000, "max_price": 9000},
+    {"name": "Ubisoft", "min_price": 500, "max_price": 8000},
+    {"name": "Electronic Arts", "min_price": 500, "max_price": 8000},
+    {"name": "Capcom", "min_price": 1000, "max_price": 9000},
+    {"name": "Bandai Namco", "min_price": 800, "max_price": 9000},
+    {"name": "Square Enix", "min_price": 1000, "max_price": 10000}
+  ],
+  "детская молочная смесь": [
+    {"name": "Nestle NAN", "min_price": 500, "max_price": 3000},
+    {"name": "Nutrilon", "min_price": 600, "max_price": 3500},
+    {"name": "Similac", "min_price": 500, "max_price": 3000},
+    {"name": "Friso", "min_price": 700, "max_price": 4000},
+    {"name": "Kabrita", "min_price": 1500, "max_price": 6000},
+    {"name": "HiPP", "min_price": 700, "max_price": 4000}
+  ],
+  "форма для выпечки": [
+    {"name": "Pyrex", "min_price": 300, "max_price": 5000},
+    {"name": "Emile Henry", "min_price": 2000, "max_price": 20000},
+    {"name": "Nordic Ware", "min_price": 1500, "max_price": 15000},
+    {"name": "Wilton", "min_price": 300, "max_price": 7000},
+    {"name": "Zenker", "min_price": 250, "max_price": 4000},
+    {"name": "Dr. Oetker", "min_price": 300, "max_price": 5000}
+  ],
+  "защитное стекло для смартфона": [
+    {"name": "Belkin", "min_price": 500, "max_price": 5000},
+    {"name": "Spigen", "min_price": 500, "max_price": 4000},
+    {"name": "UAG", "min_price": 800, "max_price": 6000},
+    {"name": "Baseus", "min_price": 200, "max_price": 2000},
+    {"name": "Nillkin", "min_price": 250, "max_price": 2500},
+    {"name": "ESR", "min_price": 300, "max_price": 3000}
+  ],
+  "робот-пылесос": [
+    {"name": "Roborock", "min_price": 15000, "max_price": 100000},
+    {"name": "Dreame", "min_price": 12000, "max_price": 90000},
+    {"name": "Ecovacs", "min_price": 18000, "max_price": 120000},
+    {"name": "iRobot", "min_price": 20000, "max_price": 100000},
+    {"name": "Eufy", "min_price": 10000, "max_price": 70000},
+    {"name": "ILIFE", "min_price": 7000, "max_price": 50000}
+  ],
+  "перфоратор": [
+    {"name": "Stanley FatMax", "min_price": 5000, "max_price": 35000},
+    {"name": "Denzel", "min_price": 3000, "max_price": 20000},
+    {"name": "Зубр", "min_price": 3500, "max_price": 25000},
+    {"name": "Интерскол", "min_price": 3000, "max_price": 22000},
+    {"name": "Ryobi", "min_price": 5000, "max_price": 40000},
+    {"name": "Festool", "min_price": 25000, "max_price": 150000}
+  ]
+}
