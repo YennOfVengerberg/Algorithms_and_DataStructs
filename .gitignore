@@ -14,3 +14,7 @@ output/*.parquet
 .idea/
 
 output/
+tests/
+
+config/stores_yandex_draft.json
+config/stores_manual_review.json
