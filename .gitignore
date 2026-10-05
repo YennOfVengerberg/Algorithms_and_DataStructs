@@ -12,3 +12,5 @@ output/*.parquet
 .DS_Store
 .vscode/
 .idea/
+
+output/

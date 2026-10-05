@@ -2,8 +2,13 @@ import json
 from pathlib import Path
 
 import random
+import csv
+from datetime import datetime, date, time, timedelta
 
 CONFIG_DIR = Path("config")
+OUTPUT_PATH = Path("output") / "transactions.csv"
+MAX_CARD_USES = 5
+NUM_RECEIPTS = 10000
 
 
 def load_config() -> dict:
@@ -85,53 +90,195 @@ def create_bank_card(config: dict) -> dict:
 
 def check_card_exceeded_limit(card: dict) -> bool:
     """Проверка, превышен ли лимит использования карты."""
-    return card["used"] >= 5
+    return card["used"] >= MAX_CARD_USES
 
-def create_transaction_receipt(config: dict) -> dict:
-    """Создание случайной транзакции на основе конфигурации."""
 
-    # Выбираем случайный магазин
+def create_transaction_receipt(
+    config: dict,
+    card: dict | None = None,
+    used_receipt_numbers: dict[tuple[str, str, str, str], set[int]] | None = None,
+) -> dict:
+    """Создание плоской записи транзакции с нужными столбцами.
+
+    Возвращает словарь с ключами:
+    store_name, timestamp, coords, category, brand, item_price,
+    card_number, quantity, receipt_number, total_amount
+    """
+
+    # Выбираем случайный магазин и филиал
     store = random.choice(config["stores"])
-    if not store["branches"]:
-        raise ValueError(f"У магазина {store['name']} нет филиалов.")
-    branch = random.choice(store["branches"])
+    if not store.get("branches"):
+        raise ValueError(f"У магазина {store.get('name')} нет филиалов.")
+    branch = random.choice(store["branches"])  # ожидается, что у ветки есть 'open' и 'close'
 
-    # Сначала выбираем подходящий этому магазину товар, затем его бренд.
-    category = random.choice(available_products_for_store(store, config))
-    brand = random.choice(config["brands"][category])
+    # Выбираем товар и бренд, совместимые с магазином
+    product = random.choice(available_products_for_store(store, config))
+    brand_entry = random.choice(config["brands"][product])
+    brand_name = brand_entry.get("name") if isinstance(brand_entry, dict) else str(brand_entry)
 
-    # Создаем банковскую карту
-    card = create_bank_card(config)
+    # Определяем цену товара по диапазону в конфиге бренда или по разумному дефолту
+    min_p = None
+    max_p = None
+    if isinstance(brand_entry, dict):
+        min_p = brand_entry.get("min_price") or brand_entry.get("price_min") or brand_entry.get("min")
+        max_p = brand_entry.get("max_price") or brand_entry.get("price_max") or brand_entry.get("max")
+    try:
+        min_price = int(min_p) if min_p is not None else 1000
+    except Exception:
+        min_price = 1000
+    try:
+        max_price = int(max_p) if max_p is not None else max(min_price, 10000)
+    except Exception:
+        max_price = max(min_price, 10000)
+    if max_price < min_price:
+        max_price = min_price
+    item_price = random.randint(min_price, max_price)
 
-    # Проверяем, превышен ли лимит использования карты
+    # Если карту не передали, создаём отдельную (удобно для одиночного вызова).
+    if card is None:
+        card = create_bank_card(config)
     if check_card_exceeded_limit(card):
-        return None  # Если лимит превышен, возвращаем None
+        raise ValueError("Эта банковская карта уже использована 5 раз.")
 
-    # Увеличиваем счетчик использования карты
-    card["used"] += 1
+    # Форматируем номер в группы по 4 цифры.
+    card_number = card["number"]
+    if len(card_number) >= 16:
+        card_number_fmt = " ".join(card_number[i:i+4] for i in range(0, 16, 4))
+    else:
+        card_number_fmt = card_number
 
-    return {
-        "store": store,
-        "branch": branch,
-        "category": category,
-        "brand": brand,
-        "card": card,
-        "receipt_id": random.randint(1, 999999),
-        "timestamp": 2
+    # Количество товаров в чеке (с учётом ограничения минимум 2)
+    quantity = random.randint(2, 50)
+
+    if used_receipt_numbers is None:
+        used_receipt_numbers = {}
+    latitude = branch.get("lat", branch.get("latitude", branch.get("y")))
+    longitude = branch.get("lon", branch.get("longitude", branch.get("x")))
+    branch_key = (
+        str(store.get("name", "")),
+        str(branch.get("address", "")),
+        str(latitude),
+        str(longitude),
+    )
+    branch_receipt_numbers = used_receipt_numbers.setdefault(branch_key, set())
+    if len(branch_receipt_numbers) >= 999999:
+        raise RuntimeError(
+            f"Для филиала {branch.get('address')} закончились уникальные номера чеков."
+        )
+
+    receipt_number_value = random.randint(1, 999999)
+    while receipt_number_value in branch_receipt_numbers:
+        receipt_number_value = random.randint(1, 999999)
+    receipt_number = f"№ {receipt_number_value}"
+
+    # Случайная дата 2026 года и время в общем интервале работы филиала.
+    open_s = branch.get("open")
+    close_s = branch.get("close")
+    if not open_s or not close_s:
+        raise ValueError(f"У филиала {branch.get('address')} не заданы часы работы.")
+    try:
+        opening = time.fromisoformat(open_s)
+        closing = time.fromisoformat(close_s)
+    except ValueError as error:
+        raise ValueError(
+            f"Некорректные часы работы филиала {branch.get('address')}: "
+            f"{open_s!r}–{close_s!r}"
+        ) from error
+
+    first_day = date(2026, 1, 1)
+    day_count = (date(2026, 12, 31) - first_day).days
+    purchase_date = first_day + timedelta(days=random.randrange(day_count))
+    start = datetime.combine(purchase_date, opening)
+    end = datetime.combine(purchase_date, closing)
+    if end < start:
+        end += timedelta(days=1)
+    total_minutes = int((end - start).total_seconds() // 60)
+    last_open_minute = max(0, total_minutes - 1)
+    chosen_dt = start + timedelta(minutes=random.randint(0, last_open_minute))
+    timestamp = chosen_dt.isoformat(timespec="minutes")+"+03:00"
+
+    # Координаты (объединяем широту и долготу через запятую)
+    lat = branch.get("lat") or branch.get("latitude") or branch.get("y")
+    lon = branch.get("lon") or branch.get("longitude") or branch.get("x")
+    coords = ""
+    try:
+        if lat is not None and lon is not None:
+            coords = f"{float(lat):.8f},{float(lon):.8f}"
+    except Exception:
+        coords = f"{lat},{lon}"
+
+    total_amount = item_price * quantity
+
+    receipt = {
+        "store_name": store.get("name"),
+        "timestamp": timestamp,
+        "coords": coords,
+        "category": product,
+        "brand": brand_name,
+        "item_price": item_price,
+        "card_number": card_number_fmt,
+        "quantity": quantity,
+        "receipt_number": receipt_number,
+        "total_amount": total_amount,
     }
+    branch_receipt_numbers.add(receipt_number_value)
+    card["used"] += 1
+    return receipt
 
 
 def main() -> None:
     config = load_config()
+
+    # Эти счётчики оставлены для отладки.
     print(f"Магазинов: {len(config['stores'])}")
     print(f"Филиалов: {sum(len(store['branches']) for store in config['stores'])}")
     print(f"Банков: {len(config['banks'])}")
     print(f"Категорий товаров: {sum(len(v) for v in config['categories'].values())}")
     print(f"Брендов товаров: {sum(len(v) for v in config['brands'].values())}")
 
-    for _ in range(1):
-        receipt = create_transaction_receipt(config)
-        print(json.dumps(receipt, ensure_ascii=False, indent=2))
+    columns = [
+        "store_name",
+        "timestamp",
+        "coordinates",
+        "category",
+        "brand",
+        "item_price",
+        "card_number",
+        "quantity",
+        "receipt_number",
+        "total_amount",
+    ]
+    OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    with OUTPUT_PATH.open("w", encoding="utf-8-sig", newline="") as file:
+        writer = csv.DictWriter(file, fieldnames=columns)
+        writer.writeheader()
+        num_cards = (NUM_RECEIPTS + MAX_CARD_USES - 1) // MAX_CARD_USES
+        cards = []
+        card_numbers = set()
+        while len(cards) < num_cards:
+            card = create_bank_card(config)
+            if card["number"] not in card_numbers:
+                cards.append(card)
+                card_numbers.add(card["number"])
+
+        used_receipt_numbers: dict[tuple[str, str, str, str], set[int]] = {}
+        for _ in range(NUM_RECEIPTS):
+            available_cards = [card for card in cards if 
+                               not check_card_exceeded_limit(card)]
+            if not available_cards:
+                raise RuntimeError(
+                    "Закончились банковские карты до создания всех чеков."
+                )
+            card = random.choice(available_cards)
+            receipt = create_transaction_receipt(
+                config, card, used_receipt_numbers
+            )
+            writer.writerow({
+                column: receipt["coords"] if column == "coordinates" else receipt[column]
+                for column in columns
+            })
+
+    print(f"Данные сохранены в {OUTPUT_PATH}")
 
 
 if __name__ == "__main__":
