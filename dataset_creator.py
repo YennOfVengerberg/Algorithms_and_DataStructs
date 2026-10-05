@@ -2,11 +2,13 @@ import json
 from pathlib import Path
 
 import random
-import csv
 from datetime import datetime, date, time, timedelta
 
+from openpyxl import Workbook
+from openpyxl.styles import Alignment, Font
+
 CONFIG_DIR = Path("config")
-OUTPUT_PATH = Path("output") / "transactions.csv"
+OUTPUT_PATH = Path("output") / "transactions.xlsx"
 MAX_CARD_USES = 5
 NUM_RECEIPTS = 10000
 
@@ -98,11 +100,10 @@ def create_transaction_receipt(
     card: dict | None = None,
     used_receipt_numbers: dict[tuple[str, str, str, str], set[int]] | None = None,
 ) -> dict:
-    """Создание плоской записи транзакции с нужными столбцами.
+    """Создание одной записи чека с несколькими товарными позициями.
 
-    Возвращает словарь с ключами:
-    store_name, timestamp, coords, category, brand, item_price,
-    card_number, quantity, receipt_number, total_amount
+    Товары возвращаются списком словарей с категорией, брендом, ценой
+    и количеством. Общее количество единиц товара в чеке — от 2 до 50.
     """
 
     # Выбираем случайный магазин и филиал
@@ -111,28 +112,55 @@ def create_transaction_receipt(
         raise ValueError(f"У магазина {store.get('name')} нет филиалов.")
     branch = random.choice(store["branches"])  # ожидается, что у ветки есть 'open' и 'close'
 
-    # Выбираем товар и бренд, совместимые с магазином
-    product = random.choice(available_products_for_store(store, config))
-    brand_entry = random.choice(config["brands"][product])
-    brand_name = brand_entry.get("name") if isinstance(brand_entry, dict) else str(brand_entry)
+    available_products = available_products_for_store(store, config)
+    total_quantity = random.randint(2, 50)
+    item_count = random.randint(1, min(5, len(available_products), total_quantity))
+    selected_products = [
+        (product, random.choice(config["brands"][product]))
+        for product in random.sample(available_products, item_count)
+    ]
+    quantities = [1] * item_count
+    for _ in range(total_quantity - item_count):
+        quantities[random.randrange(item_count)] += 1
 
-    # Определяем цену товара по диапазону в конфиге бренда или по разумному дефолту
-    min_p = None
-    max_p = None
-    if isinstance(brand_entry, dict):
-        min_p = brand_entry.get("min_price") or brand_entry.get("price_min") or brand_entry.get("min")
-        max_p = brand_entry.get("max_price") or brand_entry.get("price_max") or brand_entry.get("max")
-    try:
-        min_price = int(min_p) if min_p is not None else 1000
-    except Exception:
-        min_price = 1000
-    try:
-        max_price = int(max_p) if max_p is not None else max(min_price, 10000)
-    except Exception:
-        max_price = max(min_price, 10000)
-    if max_price < min_price:
-        max_price = min_price
-    item_price = random.randint(min_price, max_price)
+    products = []
+    for (product, brand_entry), quantity in zip(selected_products, quantities):
+        brand_name = (
+            brand_entry.get("name")
+            if isinstance(brand_entry, dict)
+            else str(brand_entry)
+        )
+        min_p = None
+        max_p = None
+        if isinstance(brand_entry, dict):
+            min_p = (
+                brand_entry.get("min_price")
+                or brand_entry.get("price_min")
+                or brand_entry.get("min")
+            )
+            max_p = (
+                brand_entry.get("max_price")
+                or brand_entry.get("price_max")
+                or brand_entry.get("max")
+            )
+        try:
+            min_price = int(min_p) if min_p is not None else 1000
+        except (TypeError, ValueError):
+            min_price = 1000
+        try:
+            max_price = (
+                int(max_p) if max_p is not None else max(min_price, 10000)
+            )
+        except (TypeError, ValueError):
+            max_price = max(min_price, 10000)
+        if max_price < min_price:
+            max_price = min_price
+        products.append({
+            "category": product,
+            "brand": brand_name,
+            "item_price": random.randint(min_price, max_price),
+            "quantity": quantity,
+        })
 
     # Если карту не передали, создаём отдельную (удобно для одиночного вызова).
     if card is None:
@@ -146,9 +174,6 @@ def create_transaction_receipt(
         card_number_fmt = " ".join(card_number[i:i+4] for i in range(0, 16, 4))
     else:
         card_number_fmt = card_number
-
-    # Количество товаров в чеке (с учётом ограничения минимум 2)
-    quantity = random.randint(2, 50)
 
     if used_receipt_numbers is None:
         used_receipt_numbers = {}
@@ -207,17 +232,16 @@ def create_transaction_receipt(
     except Exception:
         coords = f"{lat},{lon}"
 
-    total_amount = item_price * quantity
+    total_amount = sum(
+        item["item_price"] * item["quantity"] for item in products
+    )
 
     receipt = {
         "store_name": store.get("name"),
         "timestamp": timestamp,
         "coords": coords,
-        "category": product,
-        "brand": brand_name,
-        "item_price": item_price,
+        "products": products,
         "card_number": card_number_fmt,
-        "quantity": quantity,
         "receipt_number": receipt_number,
         "total_amount": total_amount,
     }
@@ -236,47 +260,68 @@ def main() -> None:
     print(f"Категорий товаров: {sum(len(v) for v in config['categories'].values())}")
     print(f"Брендов товаров: {sum(len(v) for v in config['brands'].values())}")
 
-    columns = [
-        "store_name",
-        "timestamp",
-        "coordinates",
-        "category",
-        "brand",
-        "item_price",
-        "card_number",
-        "quantity",
-        "receipt_number",
-        "total_amount",
+    headers = [
+        "Название магазина",
+        "Дата и время",
+        "Координаты",
+        "Категория",
+        "Бренд",
+        "Цена товара, руб.",
+        "Количество, шт.",
+        "Номер карты",
+        "Номер чека",
+        "Итого по чеку, руб.",
     ]
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
-    with OUTPUT_PATH.open("w", encoding="utf-8-sig", newline="") as file:
-        writer = csv.DictWriter(file, fieldnames=columns)
-        writer.writeheader()
-        num_cards = (NUM_RECEIPTS + MAX_CARD_USES - 1) // MAX_CARD_USES
-        cards = []
-        card_numbers = set()
-        while len(cards) < num_cards:
-            card = create_bank_card(config)
-            if card["number"] not in card_numbers:
-                cards.append(card)
-                card_numbers.add(card["number"])
+    workbook = Workbook()
+    worksheet = workbook.active
+    worksheet.title = "Чеки"
+    worksheet.append(headers)
+    for cell in worksheet[1]:
+        cell.font = Font(bold=True)
+        cell.alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
 
-        used_receipt_numbers: dict[tuple[str, str, str, str], set[int]] = {}
-        for _ in range(NUM_RECEIPTS):
-            available_cards = [card for card in cards if 
-                               not check_card_exceeded_limit(card)]
-            if not available_cards:
-                raise RuntimeError(
-                    "Закончились банковские карты до создания всех чеков."
-                )
-            card = random.choice(available_cards)
-            receipt = create_transaction_receipt(
-                config, card, used_receipt_numbers
+    column_widths = [24, 24, 24, 28, 22, 20, 14, 24, 16, 22]
+    for column_index, width in enumerate(column_widths, start=1):
+        worksheet.column_dimensions[worksheet.cell(1, column_index).column_letter].width = width
+
+    num_cards = (NUM_RECEIPTS + MAX_CARD_USES - 1) // MAX_CARD_USES
+    cards = []
+    card_numbers = set()
+    while len(cards) < num_cards:
+        card = create_bank_card(config)
+        if card["number"] not in card_numbers:
+            cards.append(card)
+            card_numbers.add(card["number"])
+
+    used_receipt_numbers: dict[tuple[str, str, str, str], set[int]] = {}
+    for _ in range(NUM_RECEIPTS):
+        available_cards = [
+            card for card in cards if not check_card_exceeded_limit(card)
+        ]
+        if not available_cards:
+            raise RuntimeError(
+                "Закончились банковские карты до создания всех чеков."
             )
-            writer.writerow({
-                column: receipt["coords"] if column == "coordinates" else receipt[column]
-                for column in columns
-            })
+        card = random.choice(available_cards)
+        receipt = create_transaction_receipt(
+            config, card, used_receipt_numbers
+        )
+        for product_index, product in enumerate(receipt["products"]):
+            worksheet.append([
+                receipt["store_name"] if product_index == 0 else None,
+                receipt["timestamp"] if product_index == 0 else None,
+                receipt["coords"] if product_index == 0 else None,
+                product["category"],
+                product["brand"],
+                product["item_price"],
+                product["quantity"],
+                receipt["card_number"] if product_index == 0 else None,
+                receipt["receipt_number"] if product_index == 0 else None,
+                receipt["total_amount"] if product_index == 0 else None,
+            ])
+
+    workbook.save(OUTPUT_PATH)
 
     print(f"Данные сохранены в {OUTPUT_PATH}")
 

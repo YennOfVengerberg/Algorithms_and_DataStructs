@@ -1,4 +1,3 @@
-import csv
 import io
 import random
 import tempfile
@@ -8,12 +7,13 @@ import unittest
 from contextlib import redirect_stdout
 from unittest.mock import patch
 
+from openpyxl import load_workbook
+
 from dataset_creator import (
     available_products_for_store,
     create_bank_card,
     create_transaction_receipt,
     MAX_CARD_USES,
-    NUM_RECEIPTS,
     load_config,
     main,
 )
@@ -38,13 +38,28 @@ class DatasetCreatorTests(unittest.TestCase):
                 if store["name"] == receipt["store_name"]
             )
 
-            self.assertIn(
-                receipt["category"],
-                available_products_for_store(store, self.config),
+            available_categories = available_products_for_store(store, self.config)
+            for item in receipt["products"]:
+                self.assertIn(item["category"], available_categories)
+                self.assertIn(
+                    item["brand"],
+                    [
+                        brand["name"] if isinstance(brand, dict) else str(brand)
+                        for brand in self.config["brands"][item["category"]]
+                    ],
+                )
+            self.assertGreaterEqual(
+                sum(item["quantity"] for item in receipt["products"]), 2
             )
-            self.assertIn(
-                receipt["brand"],
-                [brand["name"] for brand in self.config["brands"][receipt["category"]]],
+            self.assertLessEqual(
+                sum(item["quantity"] for item in receipt["products"]), 50
+            )
+            self.assertEqual(
+                receipt["total_amount"],
+                sum(
+                    item["item_price"] * item["quantity"]
+                    for item in receipt["products"]
+                ),
             )
             purchase_time = datetime.fromisoformat(receipt["timestamp"]).replace(tzinfo=None)
             latitude, longitude = receipt["coords"].split(",")
@@ -64,31 +79,60 @@ class DatasetCreatorTests(unittest.TestCase):
             self.assertAlmostEqual(float(latitude), branch["lat"], places=8)
             self.assertAlmostEqual(float(longitude), branch["lon"], places=8)
 
-    def test_main_writes_only_requested_csv_columns_and_keeps_debug_counters(self):
+    def test_main_writes_receipt_items_as_rows_in_xlsx(self):
         columns = [
-            "store_name",
-            "timestamp",
-            "coordinates",
-            "category",
-            "brand",
-            "item_price",
-            "card_number",
-            "quantity",
-            "receipt_number",
-            "total_amount",
+            "Название магазина",
+            "Дата и время",
+            "Координаты",
+            "Категория",
+            "Бренд",
+            "Цена товара, руб.",
+            "Количество",
+            "Номер карты",
+            "Номер чека",
+            "Итого по чеку, руб.",
         ]
+        receipt = {
+            "store_name": "Тестовый магазин",
+            "timestamp": "2026-01-01T10:00+03:00",
+            "coords": "59.90000000,30.30000000",
+            "products": [
+                {"category": "ноутбук", "brand": "Lenovo", "item_price": 50000, "quantity": 1},
+                {"category": "смартфон", "brand": "Xiaomi", "item_price": 20000, "quantity": 1},
+            ],
+            "card_number": "1234 5678 1234 5678",
+            "receipt_number": "№ 1",
+            "total_amount": 70000,
+        }
         with tempfile.TemporaryDirectory() as temp_dir:
-            output_path = Path(temp_dir) / "transactions.csv"
+            output_path = Path(temp_dir) / "transactions.xlsx"
             output = io.StringIO()
-            with patch("dataset_creator.OUTPUT_PATH", output_path), redirect_stdout(output):
+            with (
+                patch("dataset_creator.OUTPUT_PATH", output_path),
+                patch("dataset_creator.NUM_RECEIPTS", 1),
+                patch("dataset_creator.create_transaction_receipt", return_value=receipt),
+                redirect_stdout(output),
+            ):
                 main()
 
-            with output_path.open(encoding="utf-8-sig", newline="") as file:
-                rows = list(csv.reader(file))
+            workbook = load_workbook(output_path, data_only=True)
+            worksheet = workbook["Чеки"]
 
-        self.assertEqual(rows[0], columns)
-        self.assertEqual(len(rows), NUM_RECEIPTS + 1)
-        self.assertEqual(len(rows[1]), len(columns))
+        self.assertEqual([cell.value for cell in worksheet[1]], columns)
+        self.assertEqual(worksheet.max_row, 3)
+        self.assertEqual(
+            [worksheet.cell(row, 4).value for row in (2, 3)],
+            ["ноутбук", "смартфон"],
+        )
+        self.assertEqual(worksheet["A2"].value, "Тестовый магазин")
+        self.assertIsNone(worksheet["A3"].value)
+        self.assertEqual(worksheet["J2"].value, 70000)
+        self.assertIn("A2:A3", {str(rng) for rng in worksheet.merged_cells.ranges})
+        self.assertIn("B2:B3", {str(rng) for rng in worksheet.merged_cells.ranges})
+        self.assertIn("C2:C3", {str(rng) for rng in worksheet.merged_cells.ranges})
+        self.assertIn("H2:H3", {str(rng) for rng in worksheet.merged_cells.ranges})
+        self.assertIn("I2:I3", {str(rng) for rng in worksheet.merged_cells.ranges})
+        self.assertIn("J2:J3", {str(rng) for rng in worksheet.merged_cells.ranges})
         self.assertIn("Филиалов:", output.getvalue())
 
     def test_generated_card_uses_configured_bank_and_payment_system(self):
@@ -145,40 +189,60 @@ class DatasetCreatorTests(unittest.TestCase):
         self.assertEqual(second["receipt_number"], "№ 124")
         self.assertEqual(len(used_receipt_numbers), 1)
 
+    def test_receipt_can_contain_multiple_distinct_products(self):
+        store = next(
+            store for store in self.config["stores"]
+            if len(available_products_for_store(store, self.config)) > 1
+        )
+        config = {**self.config, "stores": [store]}
+        card = create_bank_card(self.config)
+        original_randint = random.randint
+
+        def controlled_randint(start, end):
+            if (start, end) == (2, 50):
+                return 2
+            if start == 1 and 2 <= end <= 5:
+                return 2
+            return original_randint(start, end)
+
+        with patch("dataset_creator.random.randint", side_effect=controlled_randint):
+            receipt = create_transaction_receipt(config, card)
+
+        self.assertEqual(len(receipt["products"]), 2)
+        product_pairs = {
+            (item["category"], item["brand"]) for item in receipt["products"]
+        }
+        self.assertEqual(len(product_pairs), 2)
+        self.assertEqual(
+            len({item["category"] for item in receipt["products"]}), 2
+        )
+        self.assertEqual(sum(item["quantity"] for item in receipt["products"]), 2)
+
     def test_main_never_uses_a_card_more_than_five_times(self):
-        columns = [
-            "store_name",
-            "timestamp",
-            "coordinates",
-            "category",
-            "brand",
-            "item_price",
-            "card_number",
-            "quantity",
-            "receipt_number",
-            "total_amount",
-        ]
         with tempfile.TemporaryDirectory() as temp_dir:
-            output_path = Path(temp_dir) / "transactions.csv"
+            output_path = Path(temp_dir) / "transactions.xlsx"
             output = io.StringIO()
             with (
                 patch("dataset_creator.OUTPUT_PATH", output_path),
+                patch("dataset_creator.NUM_RECEIPTS", 10),
                 redirect_stdout(output),
             ):
                 main()
 
-            with output_path.open(encoding="utf-8-sig", newline="") as file:
-                rows = list(csv.DictReader(file))
+            workbook = load_workbook(output_path, data_only=True)
+            worksheet = workbook["Чеки"]
 
-        self.assertEqual(len(rows), NUM_RECEIPTS)
-        self.assertTrue(all(len(row) == len(columns) for row in rows))
+        receipt_rows = [
+            row for row in range(2, worksheet.max_row + 1)
+            if worksheet.cell(row, 8).value is not None
+        ]
+        self.assertEqual(len(receipt_rows), 10)
         uses_by_card = {}
-        for row in rows:
-            card_number = row["card_number"]
+        for row in receipt_rows:
+            card_number = worksheet.cell(row, 8).value
             uses_by_card[card_number] = uses_by_card.get(card_number, 0) + 1
         self.assertTrue(all(uses <= MAX_CARD_USES for uses in uses_by_card.values()))
-        if NUM_RECEIPTS == MAX_CARD_USES:
-            self.assertEqual(list(uses_by_card.values()), [MAX_CARD_USES])
+        self.assertEqual(sum(uses_by_card.values()), 10)
 
 
 if __name__ == "__main__":
