@@ -13,6 +13,7 @@ from dataset_creator import (
     available_products_for_store,
     create_bank_card,
     create_transaction_receipt,
+    store_price_multiplier,
     MAX_CARD_USES,
     load_config,
     main,
@@ -29,6 +30,18 @@ class DatasetCreatorTests(unittest.TestCase):
             with self.subTest(store=store["name"]):
                 self.assertTrue(available_products_for_store(store, self.config))
 
+    def test_every_store_has_a_valid_synthetic_price_tier(self):
+        tiers = self.config["store_price_model"]["store_tiers"]
+        multipliers = self.config["store_price_model"]["tier_multipliers"]
+        self.assertEqual(
+            set(tiers),
+            {store["name"] for store in self.config["stores"]},
+        )
+        self.assertEqual(set(multipliers), {"discount", "standard", "premium"})
+        for store in self.config["stores"]:
+            with self.subTest(store=store["name"]):
+                self.assertGreater(store_price_multiplier(store, self.config), 0)
+
     def test_transaction_category_and_brand_fit_selected_store(self):
         for _ in range(50):
             receipt = create_transaction_receipt(self.config)
@@ -41,12 +54,37 @@ class DatasetCreatorTests(unittest.TestCase):
             available_categories = available_products_for_store(store, self.config)
             for item in receipt["products"]:
                 self.assertIn(item["category"], available_categories)
-                self.assertIn(
-                    item["brand"],
-                    [
-                        brand["name"] if isinstance(brand, dict) else str(brand)
-                        for brand in self.config["brands"][item["category"]]
-                    ],
+                matching_brand = next(
+                    brand
+                    for brand in self.config["brands"][item["category"]]
+                    if (brand["name"] if isinstance(brand, dict) else str(brand))
+                    == item["brand"]
+                )
+                if isinstance(matching_brand, dict):
+                    min_price = int(
+                        matching_brand.get("min_price")
+                        or matching_brand.get("price_min")
+                        or matching_brand.get("min")
+                        or 1000
+                    )
+                    max_price = int(
+                        matching_brand.get("max_price")
+                        or matching_brand.get("price_max")
+                        or matching_brand.get("max")
+                        or max(min_price, 10000)
+                    )
+                else:
+                    min_price, max_price = 1000, 10000
+                multiplier = store_price_multiplier(store, self.config)
+                self.assertGreaterEqual(
+                    item["item_price"], max(1, round(min_price * multiplier))
+                )
+                self.assertLessEqual(
+                    item["item_price"],
+                    max(
+                        max(1, round(min_price * multiplier)),
+                        round(max_price * multiplier),
+                    ),
                 )
             self.assertGreaterEqual(
                 sum(item["quantity"] for item in receipt["products"]), 2
@@ -87,7 +125,7 @@ class DatasetCreatorTests(unittest.TestCase):
             "Категория",
             "Бренд",
             "Цена товара, руб.",
-            "Количество",
+            "Количество, шт.",
             "Номер карты",
             "Номер чека",
             "Итого по чеку, руб.",
@@ -127,12 +165,9 @@ class DatasetCreatorTests(unittest.TestCase):
         self.assertEqual(worksheet["A2"].value, "Тестовый магазин")
         self.assertIsNone(worksheet["A3"].value)
         self.assertEqual(worksheet["J2"].value, 70000)
-        self.assertIn("A2:A3", {str(rng) for rng in worksheet.merged_cells.ranges})
-        self.assertIn("B2:B3", {str(rng) for rng in worksheet.merged_cells.ranges})
-        self.assertIn("C2:C3", {str(rng) for rng in worksheet.merged_cells.ranges})
-        self.assertIn("H2:H3", {str(rng) for rng in worksheet.merged_cells.ranges})
-        self.assertIn("I2:I3", {str(rng) for rng in worksheet.merged_cells.ranges})
-        self.assertIn("J2:J3", {str(rng) for rng in worksheet.merged_cells.ranges})
+        for column in ("B", "C", "H", "I", "J"):
+            self.assertIsNone(worksheet[f"{column}3"].value)
+        self.assertFalse(worksheet.merged_cells.ranges)
         self.assertIn("Филиалов:", output.getvalue())
 
     def test_generated_card_uses_configured_bank_and_payment_system(self):

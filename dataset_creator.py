@@ -1,4 +1,5 @@
 import json
+import math
 from pathlib import Path
 
 import random
@@ -10,7 +11,7 @@ from openpyxl.styles import Alignment, Font
 CONFIG_DIR = Path("config")
 OUTPUT_PATH = Path("output") / "transactions.xlsx"
 MAX_CARD_USES = 5
-NUM_RECEIPTS = 10000
+NUM_RECEIPTS = int(input("Введите количество чеков для генерации: "))
 
 
 def load_config() -> dict:
@@ -28,6 +29,9 @@ def load_config() -> dict:
     with open(CONFIG_DIR / "banks.json", "r", encoding="utf-8") as f:
         banks = json.load(f)
 
+    with open(CONFIG_DIR / "store_price_model.json", "r", encoding="utf-8") as f:
+        store_price_model = json.load(f)
+
     #with open(CONFIG_DIR / "settings.yaml", "r", encoding="utf-8") as f:
      #   settings = yaml.safe_load(f)
 
@@ -36,7 +40,32 @@ def load_config() -> dict:
         "categories": categories,
         "brands": brands,
         "banks": banks,
+        "store_price_model": store_price_model,
     }
+
+
+def store_price_multiplier(store: dict, config: dict) -> float:
+    """Return the configured synthetic price multiplier for a store."""
+    store_name = store.get("name")
+    try:
+        tier = config["store_price_model"]["store_tiers"][store_name]
+        multiplier = config["store_price_model"]["tier_multipliers"][tier]
+    except KeyError as error:
+        raise ValueError(
+            f"Для магазина {store_name!r} не настроен ценовой коэффициент."
+        ) from error
+
+    if (
+        isinstance(multiplier, bool)
+        or not isinstance(multiplier, (int, float))
+        or not math.isfinite(multiplier)
+        or multiplier <= 0
+    ):
+        raise ValueError(
+            f"Некорректный ценовой коэффициент для магазина {store_name!r}: "
+            f"{multiplier!r}"
+        )
+    return float(multiplier)
 
 
 def available_products_for_store(store: dict, config: dict) -> list[str]:
@@ -113,8 +142,9 @@ def create_transaction_receipt(
     branch = random.choice(store["branches"])  # ожидается, что у ветки есть 'open' и 'close'
 
     available_products = available_products_for_store(store, config)
+    price_multiplier = store_price_multiplier(store, config)
     total_quantity = random.randint(2, 50)
-    item_count = random.randint(1, min(5, len(available_products), total_quantity))
+    item_count = random.randint(1, min(5, len(available_products), total_quantity)) # количество товаров минимум 2 - категорий или единиц?
     selected_products = [
         (product, random.choice(config["brands"][product]))
         for product in random.sample(available_products, item_count)
@@ -155,6 +185,8 @@ def create_transaction_receipt(
             max_price = max(min_price, 10000)
         if max_price < min_price:
             max_price = min_price
+        min_price = max(1, round(min_price * price_multiplier))
+        max_price = max(min_price, round(max_price * price_multiplier))
         products.append({
             "category": product,
             "brand": brand_name,
@@ -254,11 +286,11 @@ def main() -> None:
     config = load_config()
 
     # Эти счётчики оставлены для отладки.
-    print(f"Магазинов: {len(config['stores'])}")
-    print(f"Филиалов: {sum(len(store['branches']) for store in config['stores'])}")
-    print(f"Банков: {len(config['banks'])}")
-    print(f"Категорий товаров: {sum(len(v) for v in config['categories'].values())}")
-    print(f"Брендов товаров: {sum(len(v) for v in config['brands'].values())}")
+    # print(f"Магазинов: {len(config['stores'])}")
+    # print(f"Филиалов: {sum(len(store['branches']) for store in config['stores'])}")
+    # print(f"Банков: {len(config['banks'])}")
+    # print(f"Категорий товаров: {sum(len(v) for v in config['categories'].values())}")
+    # print(f"Брендов товаров: {sum(len(v) for v in config['brands'].values())}")
 
     headers = [
         "Название магазина",
@@ -281,7 +313,7 @@ def main() -> None:
         cell.font = Font(bold=True)
         cell.alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
 
-    column_widths = [24, 24, 24, 28, 22, 20, 14, 24, 16, 22]
+    column_widths = [24, 24, 24, 28, 22, 20, 18, 24, 16, 22]
     for column_index, width in enumerate(column_widths, start=1):
         worksheet.column_dimensions[worksheet.cell(1, column_index).column_letter].width = width
 
