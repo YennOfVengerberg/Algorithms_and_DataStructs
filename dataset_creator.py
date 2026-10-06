@@ -11,7 +11,18 @@ from openpyxl.styles import Alignment, Font
 CONFIG_DIR = Path("config")
 OUTPUT_PATH = Path("output") / "transactions.xlsx"
 MAX_CARD_USES = 5
-NUM_RECEIPTS = int(input("Введите количество чеков для генерации: "))
+while True:
+    raw_input = input("Введите количество(целочисленное неотрицательное число) чеков для генерации: ")
+    
+    cleaned_input = raw_input.replace(" ", "")
+    
+    if not cleaned_input.isdigit() or cleaned_input < '50000':
+        print("Ошибка! Введите целое неотрицательное число (без букв и знаков) и не меньшее 50'000.")
+        continue  
+        
+    NUM_RECEIPTS = int(cleaned_input)
+    break
+
 
 
 def load_config() -> dict:

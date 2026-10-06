@@ -628,12 +628,12 @@
     {"name": "Hoff",    "min_price": 1500, "max_price": 10000}
   ],
   "сухой корм для собак": [
-    {"name": "Purina Pro Plan", "min_price": 1500, "max_price": 12000},
-    {"name": "Hill's Science Plan", "min_price": 1800, "max_price": 14000},
-    {"name": "Eukanuba", "min_price": 1300, "max_price": 9000},
-    {"name": "Acana", "min_price": 2500, "max_price": 18000},
-    {"name": "Orijen", "min_price": 3500, "max_price": 22000},
-    {"name": "Monge", "min_price": 1200, "max_price": 11000}
+    {"name": "Purina Pro Plan", "min_price": 1500, "max_price": 7500},
+    {"name": "Hill's Science Plan", "min_price": 1800, "max_price": 8500},
+    {"name": "Eukanuba", "min_price": 1300, "max_price": 6000},
+    {"name": "Acana", "min_price": 2500, "max_price": 10000},
+    {"name": "Orijen", "min_price": 3500, "max_price": 12000},
+    {"name": "Monge", "min_price": 1200, "max_price": 6500}
   ],
   "конструктор": [
     {"name": "LEGO", "min_price": 500, "max_price": 50000},
